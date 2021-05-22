@@ -7,6 +7,7 @@ import com.springapi.flickrfeed.model.ImagesVO;
 import com.springapi.flickrfeed.repository.ImagesRepository;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -43,6 +44,14 @@ public class ImagesService{
     }
 
     @SneakyThrows
+    public List<ImagesResponseVO> getFlickrFeedDataByTags(String tagsName) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlickrFeedUrl).queryParam("format", "json").queryParam("tags", tagsName);
+
+        return getFlickrFeed(builder);
+    }
+
+    @SneakyThrows
     private List<ImagesResponseVO> getFlickrFeed(UriComponentsBuilder builder){
 
         HttpHeaders headers = new HttpHeaders();
@@ -56,6 +65,8 @@ public class ImagesService{
         ImagesVO imagesVO = objectMapper.readValue(responseResult, ImagesVO.class);
 
         ModelMapper modelMapper = new ModelMapper();
+        //added to get the authorId
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         List<ImagesEntity> imagesEntityList = imagesRepository.saveAll(imagesVO.getItems().stream()
                 .map(imgsVO -> {
                     ImagesEntity imagesEntity = modelMapper.map(imgsVO, ImagesEntity.class);
@@ -66,5 +77,25 @@ public class ImagesService{
                 }).collect(Collectors.toList()));
 
         return imagesEntityList.stream().map(entity -> modelMapper.map(entity, ImagesResponseVO.class)).collect(Collectors.toList());
+    }
+
+    public List<ImagesResponseVO> getStoredFeedDataByTags(String tags) {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        return imagesRepository.findAllByTagsContaining(tags).orElse(new ArrayList<>()).stream().map(entity -> modelMapper.map(entity, ImagesResponseVO.class)).collect(Collectors.toList());
+    }
+
+    public List<ImagesResponseVO> getAllStoredFeedData() {
+
+        ModelMapper modelMapper = new ModelMapper();
+        List<ImagesEntity> imagesEntityList = imagesRepository.findAll();
+
+        return imagesEntityList.stream().map(entity -> modelMapper.map(entity, ImagesResponseVO.class)).collect(Collectors.toList());
+    }
+
+    public void clearStoredFeedData() {
+
+        imagesRepository.deleteAll();
     }
 }

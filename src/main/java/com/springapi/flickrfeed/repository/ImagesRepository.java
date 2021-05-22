@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface ImagesRepository extends JpaRepository<ImagesEntity, Long>{
-    Optional <List<ImagesEntity>> findAllDataByTags(String tags);
+    Optional <List<ImagesEntity>> findAllByTagsContaining(String tags);
 }

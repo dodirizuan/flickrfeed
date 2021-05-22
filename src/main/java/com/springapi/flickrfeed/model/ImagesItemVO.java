@@ -13,13 +13,16 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ImagesItemVO{
 
-    String title, description, author, authorId, tags;
+    String title, description, author, tags;
 
     @JsonProperty ("date_taken")
     Date dateTaken;
 
     @JsonProperty ("published")
     Date published;
+
+    @JsonProperty("author_id")
+    String authorId;
 
     ImagesMediaVO media;
 }
