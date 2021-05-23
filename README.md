@@ -6,7 +6,7 @@ Retrieve data from public photo feed in Flickr using Spring Boot Application API
 ## Demo 
 it can be test on -> 
 
-Endpoint:
+## Endpoint:
     1. /service/api/getFlickrFeedData -> Get new data from feed and save it to local db
     2. /service/api/getFlickrFeedDataByTags?tags=owl -> Get photos by using tags from feed and save it to local db
     3. /service/api/getAllStoredFeedData -> Get all data that stored in local db
