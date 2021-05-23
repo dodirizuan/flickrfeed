@@ -4,7 +4,7 @@
 Retrieve data from public photo feed in Flickr using Spring Boot Application API. Data will be stored into H2Base local database as temporary, to make the application more simple and easy to access.
 
 ## Demo 
-it can be test on -> 
+it can be test on -> https://flickrfeed-heroku.herokuapp.com
 
 ## Endpoint:
     1. /service/api/getFlickrFeedData -> Get new data from feed and save it to local db
