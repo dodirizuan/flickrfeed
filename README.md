@@ -13,7 +13,7 @@ it can be test on -> https://flickrfeed-heroku.herokuapp.com
     4. /service/api/getStoredFeedDataByTags?tags=owl -> Get data by using tags that stored in local db
     5. /service/api/clearStoredFeedData -> Clear local db
 
-## Highlated Dependecies Included 
+## Dependencies
 
     1. Spring boot starter data JPA
     2. H2 Base data base
